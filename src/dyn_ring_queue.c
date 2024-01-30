@@ -11,6 +11,11 @@
 #include "dyn_gossip.h"
 #include "dyn_token.h"
 
+// This fix the linking error if GCC is greater than 10.
+// Source: https://github.com/dmolik/dynomite/commit/303d4ecae95aee9540c48ceac9e7c0f2137a4b52
+_C2G_InQ C2G_InQ = {};
+_C2G_OutQ C2G_OutQ = {};
+
 // should use pooling to store struct ring_message so that we can reuse
 struct ring_msg *create_ring_msg(void) {
   struct ring_msg *msg = dn_alloc(sizeof(*msg));

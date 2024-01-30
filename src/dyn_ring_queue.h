@@ -16,17 +16,22 @@ struct gossip_node;
 typedef rstatus_t (*callback_t)(void *msg);
 typedef void (*data_func_t)(void *);
 
-volatile struct {
+// This fix the linking error if GCC is greater than 10.
+// Source: https://github.com/dmolik/dynomite/commit/303d4ecae95aee9540c48ceac9e7c0f2137a4b52
+typedef volatile struct {
   long m_getIdx;
   long m_putIdx;
   void *m_entry[C2G_InQ_SIZE];
-} C2G_InQ;
+} _C2G_InQ;
 
-volatile struct {
+typedef volatile struct {
   long m_getIdx;
   long m_putIdx;
   void *m_entry[C2G_OutQ_SIZE];
-} C2G_OutQ;
+} _C2G_OutQ;
+
+extern _C2G_InQ C2G_InQ;
+extern _C2G_OutQ C2G_OutQ;
 
 struct ring_msg {
   callback_t cb;
